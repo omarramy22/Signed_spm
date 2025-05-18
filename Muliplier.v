@@ -18,46 +18,43 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-
-
-module serial_parallel_multiplier(input clk, input rst, input start, input [7:0] A, input B_bit, output reg [15:0] product, output reg done);
-
-    reg [2:0] bit_count;
-    reg [7:0] multiplicand;
-    reg [15:0] temp_product;
-    reg [15:0] shifted_A;
-    reg busy;
-
+module serial_parallel_multiplier(input clk, rst, start, input [7:0] multiplicand, multiplier, output reg [15:0] product, output reg done);
+    reg [7:0] A;
+    reg [7:0] B;
+    reg [15:0] P;
+    reg [3:0] count;
+    reg active;
+    
     always @(posedge clk or posedge rst) begin
         if (rst) begin
+            A <= 0;
+            B <= 0;
+            P <= 0;
             product <= 0;
-            temp_product <= 0;
-            bit_count <= 0;
-            multiplicand <= 0;
-            busy <= 0;
+            count <= 0;
+            active <= 0;
             done <= 0;
-        end else begin
-            if (start && !busy) begin
-                multiplicand <= A;
-                temp_product <= 0;
-                bit_count <= 0;
-                busy <= 1;
-                done <= 0;
-            end else if (busy) begin
-                if (B_bit)
-                    temp_product <= temp_product + (multiplicand << bit_count);
+        end else if (start && !active) begin
+            A <= multiplicand;
+            B <= multiplier;
+            P <= 0;
+            count <= 0;
+            active <= 1;
+            done <= 0;
+        end else if (active) begin
+            if (B[0]) begin
+                P <= P + (A << count);
+            end
 
-                bit_count <= bit_count + 1;
-
-                if (bit_count == 3'd7) begin
-                    busy <= 0;
-                    product <= temp_product + (B_bit ? (multiplicand << 7) : 0);
-                    done <= 1;
-                end
-            end else begin
-                done <= 0;
+            B <= B >> 1;
+            
+            count <= count + 1;
+            
+            if (count == 7) begin
+                product <= B[0] ? P + (A << count) : P;
+                active <= 0;
+                done <= 1;
             end
         end
     end
 endmodule
-
