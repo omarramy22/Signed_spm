@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 05/18/2025 09:20:33 AM
+// Create Date: 05/20/2025 10:15:21 PM
 // Design Name: 
-// Module Name: Top_module
+// Module Name: Top_Module
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module top_module (
+module Top_Module (
     input clk,
     input btnC,
     input btnU,
@@ -28,19 +28,19 @@ module top_module (
     output [15:0] LED
 );
 
-    wire rst = btnC;
-    wire start = btnU;
+    wire rst = btnU;
+    wire start = btnC;
     wire [7:0] multiplicand = SW[7:0];
     wire [7:0] multiplier = SW[15:8];
     wire [15:0] product;
     wire done;
 
-    serial_parallel_multiplier U1 (
+    signed_serial_parallel_multiplier U1 (
         .clk(clk),
         .rst(rst),
         .start(start),
-        .multiplicand(multiplicand),
-        .multiplier(multiplier),
+        .a(multiplicand),
+        .b(multiplier),
         .product(product),
         .done(done)
     );
@@ -48,4 +48,3 @@ module top_module (
     assign LED = product;
 
 endmodule
-
