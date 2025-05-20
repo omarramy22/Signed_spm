@@ -113,19 +113,10 @@ end
         num = bcd[15:12];
         else if(state == C)
         num = bcd[11:8];
-        2'b11:
-         num = (bin[15] == 1') ? (4'b1111) : 4'b0000;
+        2'b11: 
+        num = (bin[15] == 1) ? (4'b1111) : 4'b0000;
         default: num = 4'b0000;
         endcase
         end
 
-
-        
-
-
-
-
-
-
 endmodule
-
