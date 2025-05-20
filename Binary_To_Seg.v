@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 module Binary_To_Seg(
-input clk, rst, button1, button2, [14:0] bin, 
+ input clk, rst, button1, button2, [15:0] bin, 
  output [6:0] display ,[3:0] en
     );
     
@@ -43,7 +43,7 @@ input clk, rst, button1, button2, [14:0] bin,
      wire [18:0] bcd;
      wire [14:0] newBin;
      
-     assign newBin = bin;
+ assign newBin = (bin[15] == 1) ? (~bin[14:0] + 1'b1) : bin[14:0];
      
       binary_to_bcd_DD b(.bin(newBin), .bcd(bcd));
       
@@ -114,7 +114,7 @@ end
         else if(state == C)
         num = bcd[11:8];
         2'b11:
-        num = 4'b1111;
+         num = (bin[15] == 1') ? (4'b1111) : 4'b0000;
         default: num = 4'b0000;
         endcase
         end
