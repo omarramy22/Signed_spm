@@ -10,8 +10,11 @@ set_property IOSTANDARD LVCMOS33 [get_ports button1]
 set_property PACKAGE_PIN T17 [get_ports button2]
 set_property IOSTANDARD LVCMOS33 [get_ports button2]
 
-set_property PACKAGE_PIN U18 [get_ports rst1]
-set_property IOSTANDARD LVCMOS33 [get_ports rst1]
+set_property PACKAGE_PIN T18 [get_ports rst]
+set_property IOSTANDARD LVCMOS33 [get_ports rst]
+
+set_property PACKAGE_PIN U18 [get_ports start]
+set_property IOSTANDARD LVCMOS33 [get_ports start]
 
 set_property PACKAGE_PIN L1 [get_ports done]
 set_property IOSTANDARD LVCMOS33 [get_ports done]
