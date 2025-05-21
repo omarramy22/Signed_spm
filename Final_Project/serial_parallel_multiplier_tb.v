@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module signed_serial_parallel_multiplier_tb;
 
     // Parameters
@@ -86,6 +88,21 @@ module signed_serial_parallel_multiplier_tb;
         #(CLK_PERIOD*2);
         rst = 0;
         #(CLK_PERIOD*2);
+        
+        // Test Case 1: Positive * Positive
+        run_test(8'd10, 8'd15);       // 10 * 15 = 150
+        
+        // Test Case 2: Positive * Negative
+        run_test(8'd5, 8'b11111101);  // 5 * (-3) = -15
+        
+        // Test Case 3: Negative * Positive
+        run_test(8'b11111001, 8'd6);  // (-7) * 6 = -42
+        
+        // Test Case 4: Negative * Negative
+        run_test(8'b11110111, 8'b11111100);  // (-9) * (-4) = 36
+        
+        // Test Case 5: Zero * Nonzero
+        run_test(8'd0, 8'd25);        // 0 * 25 = 0
         
         // Test Case 6: Nonzero * Zero
         run_test(8'b11110100, 8'd0);  // (-12) * 0 = 0
